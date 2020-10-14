@@ -51,17 +51,17 @@ module.exports = {
             }
 
             if(setData.currPassword && setData.newPassword) {
-                console.log(req.token.email)
                 const response = await checkUser(req.token)
                 const check = bcrypt.compareSync(setData.currPassword, response[0].password)
                 if(check) {
                     const salt = bcrypt.genSaltSync(10)
                     const hash = bcrypt.hashSync(setData.newPassword, salt)
-                    console.log(hash)
                     setData.password = hash
                     delete setData.currPassword
                     delete setData.newPassword
-                }  
+                } else {
+                    res.sendStatus(403)
+                }
             }
 
             const result = await userModels.editUser(id, setData)

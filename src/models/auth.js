@@ -14,17 +14,11 @@ module.exports = {
     },
     postRegister: function(setData) {
         return new Promise((resolve, reject) => {
-            db.query(`SELECT * FROM users WHERE email='${setData.email}'`, (err, result) => {
-                if(result[0]) {
-                    reject(new Error('Email already exist'))
+            db.query('INSERT INTO users SET ?', setData, (err, res) => {
+                if(!err) {
+                    resolve(res)
                 } else {
-                    db.query('INSERT INTO users SET ?', setData, (err, res) => {
-                        if(!err) {
-                            resolve(res)
-                        } else {
-                            reject(new Error(err))
-                        }
-                    })
+                    reject(new Error(err))
                 }
             })
         })
