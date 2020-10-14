@@ -26,7 +26,6 @@ module.exports = {
         const { id } = req.params
         if(id) {
             const role = token.role
-            console.log(token.id, id)
             if(token.id != id && role === 5) {
                 return res.sendStatus(401)
             }
