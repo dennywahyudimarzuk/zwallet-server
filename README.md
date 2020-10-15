@@ -16,7 +16,7 @@ $ npm start or yarn start
 ```
 _______________________________________________________________________________________
 ## Docs API
-https://documenter.getpostman.com/view/11198446/TVKJyupq
+https://documenter.getpostman.com/view/11198446/TVRpz54X
 _______________________________________________________________________________________
 ## Structure Table in MySQL
 Users
