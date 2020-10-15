@@ -25,7 +25,7 @@ module.exports = {
     },
     postTransfer: function(id, setData) {
         return new Promise((resolve, reject) => {
-            db.query(`SELECT id AS id_receiver, name AS receiver FROM users WHERE id=${id}`, (err, result) => {
+            db.query(`SELECT id AS id_receiver, name AS receiver, photo FROM users WHERE id=${id}`, (err, result) => {
                 if(!err) {
                     const newData = {
                         ...setData,
