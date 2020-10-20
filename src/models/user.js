@@ -3,7 +3,7 @@ const db = require('../config/mysql')
 module.exports = {
     searchAll: function(id) {
         return new Promise((resolve, reject) => {
-            db.query('SELECT id AS user_id, name, phone, photo, balance FROM users WHERE id <> ? AND role <> 6 ORDER BY name ASC', id, (err, result) => {
+            db.query('SELECT name, phone, photo, balance FROM users WHERE id <> ? AND role <> 6 ORDER BY name ASC', id, (err, result) => {
                 if(!err) {
                     resolve(result)
                 } else {
@@ -12,9 +12,9 @@ module.exports = {
             })
         })
     },
-    searchOneById: function(id, token_id) {
+    searchOneById: function(phone, token_id) {
         return new Promise((resolve, reject) => {
-            db.query(`SELECT id AS user_id, name, phone, photo, balance FROM users WHERE id=${id} AND role <> 6 AND id <> ${token_id}`, (err, result) => {
+            db.query(`SELECT name, phone, photo, balance FROM users WHERE phone=${phone} AND role <> 6 AND id <> ${token_id}`, (err, result) => {
                 if(!err) {
                     resolve(result)
                 } else {
@@ -25,7 +25,7 @@ module.exports = {
     },
     searchByName: function(id, name) {
         return new Promise((resolve, reject) => {
-            db.query(`SELECT id AS user_id, name, photo, balance FROM users WHERE name LIKE '%${name}%' AND id <> ${id} AND role <> 6 ORDER BY name ASC`, (err, result) => {
+            db.query(`SELECT name, photo, balance FROM users WHERE name LIKE '%${name}%' AND id <> ${id} AND role <> 6 ORDER BY name ASC`, (err, result) => {
                 if(!err) {
                     resolve(result)
                 } else {
@@ -37,6 +37,17 @@ module.exports = {
     getAllUser: function() {
         return new Promise((resolve, reject) => {
             db.query('SELECT * FROM users', (err, result) => {
+                if(!err) {
+                    resolve(result)
+                } else {
+                    reject(new Error(err))
+                }
+            })
+        })
+    },
+    getUserLogin: function(id) {
+        return new Promise((resolve, reject) => {
+            db.query(`SELECT name, email, role, photo, phone, balance, verified FROM users WHERE id=${id}`, (err, result) => {
                 if(!err) {
                     resolve(result)
                 } else {

@@ -39,7 +39,10 @@ module.exports = {
                     verified,
                     role,
                 }, process.env.SECRET_KEY)
-                response(res, 200, { message: 'Auth Success', token })
+                response(res, 200, { 
+                    message: 'Auth Success', 
+                    token
+                })
             } else {
                 res.sendStatus(401)
             }

@@ -5,9 +5,10 @@ const upload = require('../middlewares/multer')
 
 router
     .get('/search', authentication, userController.searchAll)
-    .get('/search/receiver/:id', authentication, userController.searchOneById)
-    .get('/search/:id', authentication, authorization, userController.searchByName)
+    .get('/search/receiver', authentication, userController.searchOneById)
+    .get('/search/query', authentication, userController.searchByName)
     .get('/', authentication, authorization, userController.getAllUser)
-    .patch('/:id', upload, authentication, authorization, userController.editUser)
+    .get('/login', authentication, userController.getUserLogin)
+    .patch('/', upload, authentication, userController.editUser)
     
 module.exports = router

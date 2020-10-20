@@ -23,16 +23,8 @@ module.exports = {
     },
     authorization: (req, res, next) => {
         const token = req.token
-        const { id } = req.params
-        if(id) {
-            const role = token.role
-            if(token.id != id && role === 5) {
-                return res.sendStatus(401)
-            }
-        } else {
-            if(token.role === 5) {
-                return res.sendStatus(401)
-            }
+        if(token.role === 5) {
+            res.sendStatus(403)
         }
 
         next()

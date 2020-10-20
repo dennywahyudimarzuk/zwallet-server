@@ -16,7 +16,7 @@ module.exports = {
     },
     getHistoryUser: async function(req, res) {
         try {
-            const { id } = req.params
+            const { id } = req.token
             let { order, page } = req.query
             if(!page) {
                 page = 1
@@ -34,7 +34,7 @@ module.exports = {
     },
     postTransfer: async function(req, res) {
         try {
-            const { id } = req.params
+            const { id } = req.token
             const setData = req.body
             if(id === setData.id_receiver) {
                 res.sendStatus(403)
@@ -51,25 +51,10 @@ module.exports = {
             })
         }
     },
-    editTransfer: async function(req, res) {
-        try {
-            const { id } = req.params
-            const setData = req.body
-            const result = await transferModel.editTransfer(id, setData)
-            res.status(201).send({
-                message: 'Success edited a transfer',
-                data: result.affectedRows
-            })
-        } catch (error) {
-            res.status(500).send({
-                message: error.message
-            })
-        }
-    },
     deleteTransfer: async function(req, res) {
         try {
-            const { id } = req.params
-            await transferModel.deleteTransfer(id)
+            const { id, id_transfer } = req.params
+            await transferModel.deleteTransfer(id, id_transfer)
             res.status(200).send({
                 message: 'Success delete a log transfer'
             })

@@ -43,20 +43,9 @@ module.exports = {
             })
         })
     },
-    editTransfer: function(id, setData) {
+    deleteTransfer: function(id, id_transfer) {
         return new Promise((resolve, reject) => {
-            db.query(`UPDATE transfer SET ? WHERE id=?`, [setData, id], (err, result) => {
-                if(!err) {
-                    resolve(result)
-                } else {
-                    reject(new Error(err))
-                }
-            })
-        })
-    },
-    deleteTransfer: function(id) {
-        return new Promise((resolve, reject) => {
-            db.query(`DELETE FROM transfer WHERE id=${id}`, (err, result) => {
+            db.query(`DELETE FROM transfer WHERE id_sender=${id} OR id_receiver=${id} AND id=${id_transfer}`, (err, result) => {
                 if(!err) {
                     resolve(result)
                 } else {
