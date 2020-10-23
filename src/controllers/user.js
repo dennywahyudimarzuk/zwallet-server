@@ -43,8 +43,10 @@ module.exports = {
     },
     getUserLogin: async function(req, res) {
         try {
-            const { id } = req.token
+            const { id, firstName, lastName } = req.token
             const result = await userModels.getUserLogin(id)
+            result[0].firstName = firstName
+            result[0].lastName = lastName
             response(res, 200, result)
         } catch (error) {
             response(res, 500, { message: error.message })
@@ -72,15 +74,6 @@ module.exports = {
                 }
             }
 
-            if(setData.currPin && setData.pin) {
-                const result = await checkUser(req.token)
-                if(result[0].pin == setData.currPin) {
-                    delete setData.currPin
-                } else {
-                    res.sendStatus(403)
-                }
-            }
-
             const result = await userModels.editUser(id, setData)
             if(result.affectedRows) {
                 const result = await userModels.getUserLogin(req.token.id)
@@ -93,6 +86,22 @@ module.exports = {
         } catch (error) {
             console.log(error)
             res.sendStatus(500)
+        }
+    },
+    checkPin: async function(req, res) {
+        try {
+            const { pin } = req.body
+            if(pin.length !== 6) {
+                return res.send('PIN must be full filled')
+            }
+            const result = await checkUser(req.token)
+            if(result[0].pin == pin) {
+                res.send('OK')
+            } else {
+                res.send('Invalid PIN')
+            }
+        } catch (error) {
+            res.send(error.message)
         }
     }
 }

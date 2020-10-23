@@ -9,6 +9,7 @@ router
     .get('/search/query', authentication, userController.searchByName)
     .get('/', authentication, authorization, userController.getAllUser)
     .get('/login', authentication, userController.getUserLogin)
+    .post('/pin', authentication, userController.checkPin)
     .patch('/', upload, authentication, userController.editUser)
     
 module.exports = router

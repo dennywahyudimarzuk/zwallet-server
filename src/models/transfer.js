@@ -14,7 +14,7 @@ module.exports = {
     },
     getHistoryUser: function(id, order, offset) {
         return new Promise((resolve, reject) => {
-            db.query(`SELECT * FROM transfer WHERE id_sender=${id} OR id_receiver=${id} ORDER BY ${order}(date) DESC LIMIT 2 OFFSET ${offset}`, (err, result) => {
+            db.query(`SELECT amount, receiver, photo, sender, photo_sender FROM transfer WHERE id_sender=${id} OR id_receiver=${id} ORDER BY ${order}(date) DESC LIMIT 2 OFFSET ${offset}`, (err, result) => {
                 if(!err) {
                     resolve(result)
                 } else {
@@ -23,10 +23,22 @@ module.exports = {
             })
         })
     },
-    postTransfer: function(id, setData) {
+    getAllHistoryUser: function(id) {
         return new Promise((resolve, reject) => {
-            db.query(`SELECT id AS id_receiver, name AS receiver, photo FROM users WHERE id=${id}`, (err, result) => {
+            db.query(`SELECT amount, receiver, photo, sender, photo_sender FROM transfer WHERE id_sender=${id} OR id_receiver=${id}`, (err, result) => {
                 if(!err) {
+                    resolve(result)
+                } else {
+                    reject(new Error(err))
+                }
+            })
+        })
+    },
+    postTransfer: function(phone, setData) {
+        return new Promise((resolve, reject) => {
+            db.query(`SELECT id AS id_receiver, name AS receiver, photo FROM users WHERE phone=${phone}`, (err, result) => {
+                if(!err) {
+                    console.log(setData)
                     const newData = {
                         ...setData,
                         ...result[0]

@@ -11,7 +11,9 @@ module.exports = {
             const setData = req.body
             const result = await authModels.checkUser(setData)
             if(!result[0]) {
-                res.status(401).send('Email not Found')
+                res.status(401).send({
+                    message: 'Email Not Found'
+                })
             }
             const check = bcrypt.compareSync(setData.password, result[0].password)
             if(check) {
@@ -27,7 +29,7 @@ module.exports = {
                     lastName = ' '
                 }
                 
-                const { id, email, name, balance, photo, verified, role} = result[0]
+                const { id, email, name, balance, photo, phone, verified, role, pin} = result[0]
                 const token = jwt.sign({
                     id,
                     name,
@@ -36,15 +38,19 @@ module.exports = {
                     email,
                     balance,
                     photo,
+                    phone,
                     verified,
                     role,
+                    pin
                 }, process.env.SECRET_KEY)
                 response(res, 200, { 
                     message: 'Auth Success', 
                     token
                 })
             } else {
-                res.sendStatus(401)
+                res.status(401).send({
+                    message: 'Invalid Password'
+                })
             }
         } catch (error) {
             response(res, 500, { message: error.message })

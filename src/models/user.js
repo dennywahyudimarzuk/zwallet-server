@@ -25,7 +25,7 @@ module.exports = {
     },
     searchByName: function(id, name) {
         return new Promise((resolve, reject) => {
-            db.query(`SELECT name, photo, balance FROM users WHERE name LIKE '%${name}%' AND id <> ${id} AND role <> 6 ORDER BY name ASC`, (err, result) => {
+            db.query(`SELECT name, phone, photo, balance FROM users WHERE name LIKE '%${name}%' AND id <> ${id} AND role <> 6 ORDER BY name ASC`, (err, result) => {
                 if(!err) {
                     resolve(result)
                 } else {
@@ -47,7 +47,7 @@ module.exports = {
     },
     getUserLogin: function(id) {
         return new Promise((resolve, reject) => {
-            db.query(`SELECT name, email, role, photo, phone, balance, verified FROM users WHERE id=${id}`, (err, result) => {
+            db.query(`SELECT name, email, photo, phone, balance, verified FROM users WHERE id=${id}`, (err, result) => {
                 if(!err) {
                     resolve(result)
                 } else {
