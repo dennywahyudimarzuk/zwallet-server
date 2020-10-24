@@ -5,5 +5,6 @@ const { requiredName, requiredEmail, requiredPassword } = require('../middleware
 router
     .post('/login', authController.postLogin)
     .post('/register', [requiredName, requiredEmail, requiredPassword], authController.postRegister)
+    .post('/forgot', authController.forgotPassword)
 
 module.exports = router

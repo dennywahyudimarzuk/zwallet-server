@@ -79,5 +79,18 @@ module.exports = {
         } catch (error) {
             response(res, 500, { message: 'Register Failed'})
         }
+    },
+    forgotPassword: async function(req, res) {
+        try {
+            const setData = req.body
+            const check = await authModels.checkUser(setData)
+            if(check) {
+                const reset = await authModels.resetPassword(setData.email, setData.password)
+            } else {
+                response(res, 403, { message: 'Email Not Found' })
+            }
+        } catch (error) {
+            response(res, 500, { message: error.message })
+        }
     }
 }
