@@ -25,9 +25,9 @@ module.exports = {
     },
     resetPassword: function(email, password) {
         return new Promise((resolve, reject) => {
-            db.query(`UPDATE users SET ? WHERE email='${email}'`, password, (err, result) => {
+            db.query(`UPDATE users SET ? WHERE email=?`, [password, email], (err, result) => {
                 if(!err) {
-                    resolve(res)
+                    resolve(result)
                 } else {
                     reject(new Error(err))
                 }

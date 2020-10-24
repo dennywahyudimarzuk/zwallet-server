@@ -82,10 +82,14 @@ module.exports = {
     },
     forgotPassword: async function(req, res) {
         try {
-            const setData = req.body
+            setData = req.body
             const check = await authModels.checkUser(setData)
             if(check) {
+                const salt = bcrypt.genSaltSync(10)
+                const hash = bcrypt.hashSync(setData.password, salt)
+                setData.password = hash
                 const reset = await authModels.resetPassword(setData.email, setData.password)
+                response(res, 200, reset)
             } else {
                 response(res, 403, { message: 'Email Not Found' })
             }
