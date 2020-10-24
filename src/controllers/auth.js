@@ -82,7 +82,7 @@ module.exports = {
     },
     forgotPassword: async function(req, res) {
         try {
-            setData = req.body
+            let setData = req.body
             const check = await authModels.checkUser(setData)
             if(check) {
                 const salt = bcrypt.genSaltSync(10)
