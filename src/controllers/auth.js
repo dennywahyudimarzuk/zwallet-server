@@ -80,11 +80,12 @@ module.exports = {
             response(res, 500, { message: 'Register Failed'})
         }
     },
+    
     forgotPassword: async function(req, res) {
         try {
             let setData = req.body
             const check = await authModels.checkUser(setData)
-            if(check) {
+            if(check.length) {
                 const salt = bcrypt.genSaltSync(10)
                 const hash = bcrypt.hashSync(setData.password, salt)
                 setData.password = hash
